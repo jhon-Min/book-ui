@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router';
 import logo from '../../public/img/logo.png';
 import './Navbar.css';
+import { HiHome } from 'react-icons/hi';
 
 export default function Navbar() {
   return (
@@ -32,6 +33,34 @@ export default function Navbar() {
           >
             Login
           </button>
+        </div>
+      </nav>
+
+      <nav className="md:hidden fixed bottom-0 left-0 z-50 w-full h-[75px] bg-white border-t border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+        <div className="px-[15px] flex items-center justify-around">
+          <NavLink
+            to="/"
+            className="mr-[50px] hover:text-red-500 transcation-colors duration-300 ease-in-out"
+          >
+            <HiHome className="text-[30px] text-center" />
+            Home
+          </NavLink>
+
+          <NavLink
+            to="/"
+            className="mr-[50px] hover:text-red-500 transcation-colors duration-300 ease-in-out"
+          >
+            <HiHome className="text-[30px]" />
+            Home
+          </NavLink>
+
+          <NavLink
+            to="/"
+            className="mr-[50px] hover:text-red-500 transcation-colors duration-300 ease-in-out"
+          >
+            <HiHome className="text-[30px]" />
+            Home
+          </NavLink>
         </div>
       </nav>
     </>
