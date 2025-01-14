@@ -57,7 +57,7 @@ export default function Navbar() {
 
           <div className="text-center">
             <NavLink
-              to="/"
+              to="/manga"
               className="mr-[50px] text-[#434F5D] hover:text-red-500 transcation-colors duration-300 ease-in-out"
             >
               <div className="flex flex-col items-center">
@@ -69,7 +69,7 @@ export default function Navbar() {
 
           <div className="text-center ">
             <NavLink
-              to="/"
+              to="/about"
               className="mr-[50px] text-[#434F5D] hover:text-red-500 transcation-colors duration-300 ease-in-out"
             >
               <div className="flex flex-col items-center">
