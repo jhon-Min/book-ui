@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import sampleImg from '../../public/img/img-3.webp';
 import newImg from '../../public/img/new.gif';
+import Category from './Category';
 
 export default function AllBooks() {
   return (
@@ -9,11 +10,15 @@ export default function AllBooks() {
         All Books
       </h1>
 
+      <div className="mt-[20px] mb-[40px]">
+        <Category />
+      </div>
+
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-5 text-white">
         <Link to="/manga/1" className="mb-5 ">
           <img
             src={newImg}
-            className="h-[100px] object-cover absolute mt-[-2rem] ms-1"
+            className="h-[100px] object-cover absolute mt-[-0.5rem] ms-1"
           />
           <img
             src={sampleImg}
@@ -22,83 +27,8 @@ export default function AllBooks() {
           <h1 className="mt-2 text-[20px] text-center font-semibold">
             Attack of Titan
           </h1>
-          <p className="text-sm text-center text-red-500">Chapter 12</p>
+          <p className="text-center text-red-500">Chapter 12</p>
         </Link>
-
-        <div className="mb-5 ">
-          <img
-            src={newImg}
-            className="h-[100px] object-cover absolute mt-[-2rem] ms-1"
-          />
-          <img
-            src={sampleImg}
-            className=" rounded-md h-[230px] w-full object-cover"
-          />
-          <h1 className="mt-2 text-[20px] text-center font-semibold">
-            Attack of Titan
-          </h1>
-          <p className="text-sm text-center text-red-500">Chapter 12</p>
-        </div>
-
-        <div className="mb-5 ">
-          <img
-            src={newImg}
-            className="h-[100px] object-cover absolute mt-[-2rem] ms-1"
-          />
-          <img
-            src={sampleImg}
-            className=" rounded-md h-[230px] w-full object-cover"
-          />
-          <h1 className="mt-2 text-[20px] text-center font-semibold">
-            Attack of Titan
-          </h1>
-          <p className="text-sm text-center text-red-500">Chapter 12</p>
-        </div>
-
-        <div className="mb-5 ">
-          <img
-            src={newImg}
-            className="h-[100px] object-cover absolute mt-[-2rem] ms-1"
-          />
-          <img
-            src={sampleImg}
-            className=" rounded-md h-[230px] w-full object-cover"
-          />
-          <h1 className="mt-2 text-[20px] text-center font-semibold">
-            Attack of Titan
-          </h1>
-          <p className="text-sm text-center text-red-500">Chapter 12</p>
-        </div>
-
-        <div className="mb-5 ">
-          <img
-            src={newImg}
-            className="h-[100px] object-cover absolute mt-[-2rem] ms-1"
-          />
-          <img
-            src={sampleImg}
-            className=" rounded-md h-[230px] w-full object-cover"
-          />
-          <h1 className="mt-2 text-[20px] text-center font-semibold">
-            Attack of Titan
-          </h1>
-          <p className="text-sm text-center text-red-500">Chapter 12</p>
-        </div>
-
-        <div className="mb-5 ">
-          <img
-            src={newImg}
-            className="h-[100px] object-cover absolute mt-[-2rem] ms-1"
-          />
-          <img
-            src={sampleImg}
-            className=" rounded-md h-[230px] w-full object-cover"
-          />
-          <h1 className="mt-2 text-[20px] text-center font-semibold">
-            Attack of Titan
-          </h1>
-          <p className="text-sm text-center text-red-500">Chapter 12</p>
-        </div>
       </div>
     </div>
   );

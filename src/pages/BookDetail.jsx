@@ -16,7 +16,7 @@ export default function BookDetail() {
         />
       </div>
 
-      <div className="px-[15px] md:px-[140px] mt-10 text-white mb-[100px]">
+      <div className="px-[15px] md:px-[140px] mt-10 text-white mb-[150px]">
         <p className="text-[25px] text-center text-red-500 mb-3">
           Attack of Titan
         </p>
@@ -28,6 +28,8 @@ export default function BookDetail() {
           accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut
           molestias architecto voluptate aliquam nihil, eveniet aliquid culpa.
         </p>
+
+        <hr className="border-red-500 my-10" />
       </div>
     </>
   );

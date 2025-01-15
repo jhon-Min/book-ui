@@ -41,7 +41,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <nav className="md:hidden bg-[#101720] fixed bottom-0 left-0 z-50 w-full h-[72px] ">
+      <nav className="md:hidden bg-[#101720] fixed bottom-[-1px] left-0 z-50 w-full h-[72px] ">
         <div className="grid grid-cols-4 gap-3 pt-3 ">
           <div className="text-center">
             <NavLink
@@ -86,7 +86,7 @@ export default function Navbar() {
             >
               <div className="flex flex-col items-center">
                 <HiUser className="text-[27px] text-center" />
-                <p className="text-[16px]">Login</p>
+                <p className="text-[16px]">Profile</p>
               </div>
             </NavLink>
           </div>
