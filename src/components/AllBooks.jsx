@@ -10,6 +10,19 @@ import { Spinner } from 'flowbite-react';
 export default function AllBooks() {
   const [genres, setGenres] = useState([]);
 
+  const {
+    data: books,
+    error: booksError,
+    isLoading: booksLoading,
+  } = useQuery({
+    queryKey: ['books'], // Query key should be an array in v4+
+    queryFn: async () => {
+      const res = await api.get('api/v1/books');
+      // console.log(res.data);
+      return res.data.data;
+    },
+  });
+
   const getGenres = async () => {
     try {
       const { data } = await api.get('api/v1/genres');
@@ -22,7 +35,6 @@ export default function AllBooks() {
   useEffect(() => {
     getGenres();
   }, []);
-  console.log(genres);
 
   return (
     <div className="px-[15px] md:px-[150px] mt-8 md:mt-[70px] mb-[120px]">
@@ -41,20 +53,27 @@ export default function AllBooks() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-5 text-white">
-        <Link to="/manga/1" className="mb-5 ">
-          <img
-            src={newImg}
-            className="h-[100px] object-cover absolute mt-[-0.5rem] ms-1"
-          />
-          <img
-            src={sampleImg}
-            className=" rounded-md h-[230px] w-full object-cover"
-          />
-          <h1 className="mt-2 text-[20px] text-center font-semibold">
-            Attack of Titan
-          </h1>
-          <p className="text-center text-red-500">Chapter 12</p>
-        </Link>
+        {booksLoading ? (
+          <Spinner color="failure" aria-label="Failure spinner example" />
+        ) : books && books.length > 0 ? (
+          books.map((book) => (
+            <Link key={book.id} to={`/manga/${book.id}`} className="mb-5 block">
+              {book.bookProfile && (
+                <img
+                  src={book.bookProfile}
+                  className="rounded-md h-[230px] w-full object-cover"
+                  alt={book.name}
+                />
+              )}
+              <h1 className="mt-2 text-[20px] text-center font-semibold">
+                {book.name}
+              </h1>
+              <p className="text-center text-red-500">Chapter 100</p>
+            </Link>
+          ))
+        ) : (
+          <div>No books found</div>
+        )}
       </div>
     </div>
   );
