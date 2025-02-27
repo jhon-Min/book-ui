@@ -1,9 +1,9 @@
-import React from 'react';
+import { Link } from 'react-router';
 import { useParams } from 'react-router';
-import sampleImg from '../../public/img/img-3.webp';
 import { useQuery } from '@tanstack/react-query';
 import api from '../api/api';
 import { Spinner } from 'flowbite-react';
+import { HiEye, HiEyeSlash, HiMiniLockClosed } from 'react-icons/hi2';
 
 export default function BookDetail() {
   const { id } = useParams();
@@ -39,6 +39,14 @@ export default function BookDetail() {
     );
   }
 
+  if (detailErr) {
+    return <div>Error loading book details: {detailErr.message}</div>;
+  }
+
+  if (error) {
+    return <div>Error loading chapters: {error.message}</div>;
+  }
+
   return (
     <>
       <img
@@ -60,6 +68,46 @@ export default function BookDetail() {
         <p>{detailData?.description || '......'}</p>
 
         <hr className="border-red-500 my-10" />
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {isLoading ? (
+            <Spinner color="failure" aria-label="Failure spinner example" />
+          ) : (
+            data.map((x) => {
+              return (
+                <Link
+                  key={x.id}
+                  className="text-center bg-[#101720] py-6 rounded-[10px] border-[0.7px] border-solid border-gray-200"
+                >
+                  <h5 className="text-lg font-bold">
+                    {x.isPremium ? (
+                      <HiEyeSlash
+                        style={{
+                          verticalAlign: 'baseline',
+                          display: 'inline-block',
+                        }}
+                        className="mr-2"
+                      />
+                    ) : (
+                      <HiEye
+                        style={{
+                          verticalAlign: 'baseline',
+                          display: 'inline-block',
+                        }}
+                        className="mr-2"
+                      />
+                    )}
+                    Chapter {x.no}
+                  </h5>
+                  <p className="mt-2 ">
+                    <span className="text-red-500 mr-1">{x.coin}</span>
+                    coins
+                  </p>
+                </Link>
+              );
+            })
+          )}
+        </div>
       </div>
     </>
   );
