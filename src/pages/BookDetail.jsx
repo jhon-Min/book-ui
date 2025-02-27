@@ -78,6 +78,7 @@ export default function BookDetail() {
                 <Link
                   key={x.id}
                   className="text-center bg-[#101720] py-6 rounded-[10px] border-[0.7px] border-solid border-gray-200"
+                  to={`/chapters/${x.id}`}
                 >
                   <h5 className="text-lg font-bold">
                     {x.isPremium ? (

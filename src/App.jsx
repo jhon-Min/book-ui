@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Book from './pages/Book';
 import BookDetail from './pages/BookDetail';
 import About from './pages/About';
+import ChapterDetail from './pages/ChapterDetail';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/manga" element={<Book />} />
         <Route path="/about" element={<About />} />
         <Route path="/manga/:id" element={<BookDetail />} />
+        <Route path="/chapters/:id" element={<ChapterDetail />} />
       </Routes>
     </>
   );
