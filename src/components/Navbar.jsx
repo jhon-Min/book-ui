@@ -46,7 +46,11 @@ export default function Navbar() {
           <div className="text-center">
             <NavLink
               to="/"
-              className="mr-[50px] text-[#434F5D] hover:text-red-500 transcation-colors duration-300 ease-in-out"
+              className={({ isActive }) =>
+                `mr-[50px] ${
+                  isActive ? 'text-red-500' : 'text-[#434F5D]'
+                } hover:text-red-500 transition-colors duration-300 ease-in-out`
+              }
             >
               <div className="flex flex-col items-center">
                 <HiHome className="text-[27px] text-center" />
@@ -58,7 +62,11 @@ export default function Navbar() {
           <div className="text-center">
             <NavLink
               to="/manga"
-              className="mr-[50px] text-[#434F5D] hover:text-red-500 transcation-colors duration-300 ease-in-out"
+              className={({ isActive }) =>
+                `mr-[50px] ${
+                  isActive ? 'text-red-500' : 'text-[#434F5D]'
+                } hover:text-red-500 transition-colors duration-300 ease-in-out`
+              }
             >
               <div className="flex flex-col items-center">
                 <HiOutlineViewBoards className="text-[27px] text-center" />
@@ -70,7 +78,11 @@ export default function Navbar() {
           <div className="text-center ">
             <NavLink
               to="/about"
-              className="mr-[50px] text-[#434F5D] hover:text-red-500 transcation-colors duration-300 ease-in-out"
+              className={({ isActive }) =>
+                `mr-[50px] ${
+                  isActive ? 'text-red-500' : 'text-[#434F5D]'
+                } hover:text-red-500 transition-colors duration-300 ease-in-out`
+              }
             >
               <div className="flex flex-col items-center">
                 <HiUserGroup className="text-[27px] text-center" />
@@ -81,8 +93,12 @@ export default function Navbar() {
 
           <div className="text-center">
             <NavLink
-              to="/"
-              className="mr-[50px] text-[#434F5D] hover:text-red-500 transcation-colors duration-300 ease-in-out"
+              to="/profile"
+              className={({ isActive }) =>
+                `mr-[50px] ${
+                  isActive ? 'text-red-500' : 'text-[#434F5D]'
+                } hover:text-red-500 transition-colors duration-300 ease-in-out`
+              }
             >
               <div className="flex flex-col items-center">
                 <HiUser className="text-[27px] text-center" />
