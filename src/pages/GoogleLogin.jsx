@@ -16,6 +16,8 @@ const GoogleLogin = () => {
     auth.signOut();
   };
 
+  console.log('User', user);
+
   return (
     <div>
       {user ? (
