@@ -1,12 +1,21 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import api from '../api/api';
-import { Spinner } from 'flowbite-react';
+import { Modal, Spinner, Button } from 'flowbite-react';
 import { HiEye, HiEyeSlash, HiMiniLockClosed } from 'react-icons/hi2';
+import useAuthStore from '../store/useAuthStore';
+import { useState } from 'react';
+import { GLogin } from '../components/gLogin';
+import { infoNoti } from '../helper/notiMessage';
 
 export default function BookDetail() {
   const { id } = useParams();
+  const [openModal, setOpenModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [selectedChapter, setSelectedChapter] = useState(null);
+  const { user, token } = useAuthStore();
+  const navigate = useNavigate();
 
   const {
     data: detailData,
@@ -29,7 +38,7 @@ export default function BookDetail() {
     },
   });
 
-  console.log('Chapters', data);
+  console.log('User', user);
 
   if (detailLoading) {
     return (
@@ -45,6 +54,37 @@ export default function BookDetail() {
 
   if (error) {
     return <div>Error loading chapters: {error.message}</div>;
+  }
+
+  function onCloseModal() {
+    setOpenModal(false);
+  }
+
+  function handleCancel() {
+    setShowConfirmationModal(false);
+  }
+
+  const handleLoginSuccess = () => {
+    onCloseModal();
+  };
+
+  const validateCoinPay = (isPremium, coin, chapterId) => (event) => {
+    event.preventDefault();
+    if (isPremium && !token) {
+      setOpenModal(true);
+    }
+
+    if (token && user.points >= coin) {
+      setShowConfirmationModal(true);
+      setSelectedChapter(chapterId);
+    } else {
+      infoNoti('လက်ကျန် coin မလုံလောက်ပါ');
+    }
+  };
+
+  function handleConfirm() {
+    handleCancel();
+    navigate(`/chapters/${selectedChapter}`);
   }
 
   return (
@@ -78,7 +118,8 @@ export default function BookDetail() {
                 <Link
                   key={x.id}
                   className="text-center bg-[#101720] py-6 rounded-[10px] border-[0.7px] border-solid border-gray-200"
-                  to={`/chapters/${x.id}`}
+                  // to={`/chapters/${x.id}`}
+                  onClick={validateCoinPay(x.isPremium, x.coin, x.id)}
                 >
                   <h5 className="text-lg font-bold">
                     {x.isPremium ? (
@@ -109,6 +150,57 @@ export default function BookDetail() {
             })
           )}
         </div>
+
+        {/* Login Modal */}
+        <Modal
+          className="pt-[120px] md:pt-0"
+          show={openModal}
+          size="md"
+          onClose={onCloseModal}
+          popup
+        >
+          <Modal.Header className="bg-[#101720]" />
+          <Modal.Body className="bg-[#101720]">
+            <GLogin
+              title="Sign in to continue"
+              description="Login ဝင်ပြီးဖတ်နိုင်ပါသည်။"
+              isReload={true}
+              onLoginSuccess={handleLoginSuccess}
+            />
+          </Modal.Body>
+        </Modal>
+
+        {/* Confirm Modal */}
+        <Modal
+          show={showConfirmationModal}
+          className="pt-[120px] md:pt-0"
+          onClose={handleCancel}
+          size="md"
+          popup
+        >
+          <Modal.Header className="bg-[#101720]" />
+          <Modal.Body className="bg-[#101720] text-white">
+            <div className="text-center">
+              <h3 className="text-xl font-bold mb-10">
+                Are you sure you want to proceed?
+              </h3>
+              <div className="flex justify-center gap-4">
+                <Button
+                  onClick={handleConfirm}
+                  className="bg-green-500 hover:bg-green-600"
+                >
+                  Yes
+                </Button>
+                <Button
+                  onClick={handleCancel}
+                  className="bg-red-500 hover:bg-red-600"
+                >
+                  No
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
     </>
   );

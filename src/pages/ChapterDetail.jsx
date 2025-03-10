@@ -1,15 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import api from '../api/api';
 import { Spinner } from 'flowbite-react';
+import useAuthStore from '../store/useAuthStore';
 
 export default function ChapterDetail() {
   const { id } = useParams();
+  const { token } = useAuthStore();
+  const navigate = useNavigate();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['chapter'],
     queryFn: async () => {
-      const res = await api.get(`api/v1/chapters/${id}`);
+      if (!token) {
+        navigate('/profile');
+      }
+      const res = await api.get(`api/v1/chapters/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return res.data;
     },
     enabled: !!id,

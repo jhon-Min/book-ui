@@ -10,6 +10,8 @@ import useAuthStore from '../store/useAuthStore';
 export function GLogin({
   title = 'Welcome Back',
   description = 'Sign in to continue',
+  isReload = false,
+  onLoginSuccess,
 }) {
   const { setUser, setToken } = useAuthStore();
   const [isLoggedIn, setLoggedIn] = useState(false); // New state
@@ -30,15 +32,22 @@ export function GLogin({
       },
       onSuccess: (data) => {
         const res = data.data;
-        console.log('Login Res', res);
+        // console.log('Login Res', res);
         setToken(res.accessToken);
         setUser({
           id: res.id,
           name: res.name,
           email: res.email,
+          phone: res.phone,
+          image: res.image,
+          points: res.points,
         });
         successNoti('Login Success');
         setLoggedIn(true);
+        if (isReload) {
+          // window.location.reload();
+          onLoginSuccess();
+        }
       },
       onError: (error) => {
         console.error('Error during sign-in:', error);
@@ -57,7 +66,7 @@ export function GLogin({
   };
 
   return (
-    <div className="flex justify-center mt-[100px]">
+    <div className="flex justify-center mt-[80px]">
       <div className="w-[80%] py-10 bg-[#101720] rounded-[10px] px-5 text-center text-white">
         <h2 className="text-2xl font-bold mb-4">{title}</h2>
         <p className="text-gray-600 mb-10">{description}</p>

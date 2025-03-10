@@ -1,4 +1,4 @@
-import { toast, Bounce } from 'react-toastify';
+import { toast, Bounce, Slide } from 'react-toastify';
 
 function successNoti(msg = `'🦄 Wow so easy!'`) {
   toast.success(msg, {
@@ -14,4 +14,18 @@ function successNoti(msg = `'🦄 Wow so easy!'`) {
   });
 }
 
-export { successNoti };
+function infoNoti(msg = `'🦄 Wow so easy!'`) {
+  toast.info(msg, {
+    position: 'top-center',
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: false,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'light',
+    transition: Slide,
+  });
+}
+
+export { successNoti, infoNoti };
