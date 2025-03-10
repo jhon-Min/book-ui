@@ -77,7 +77,7 @@ export default function BookDetail() {
     if (token && user.points >= coin) {
       setShowConfirmationModal(true);
       setSelectedChapter(chapterId);
-    } else {
+    } else if (token) {
       infoNoti('လက်ကျန် coin မလုံလောက်ပါ');
     }
   };

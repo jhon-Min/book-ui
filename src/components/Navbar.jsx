@@ -7,8 +7,16 @@ import {
   HiUser,
   HiUserGroup,
 } from 'react-icons/hi';
+import useAuthStore from '../store/useAuthStore';
+import { successNoti } from '../helper/notiMessage';
 
 export default function Navbar() {
+  const { token, logout } = useAuthStore();
+
+  function logoutHandler() {
+    logout();
+    successNoti('Successfully Logout Your Account');
+  }
   return (
     <>
       <nav className="bg-[#101720] p-[15px] sm:px-[140px] flex items-center justify-between">
@@ -32,12 +40,22 @@ export default function Navbar() {
             About
           </NavLink>
 
-          <button
-            type="button"
-            class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-[16px] px-6 py-2.5 text-center"
-          >
-            Login
-          </button>
+          {token ? (
+            <button
+              type="button"
+              onClick={() => logoutHandler()}
+              class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-[16px] px-6 py-2.5 text-center"
+            >
+              Logout
+            </button>
+          ) : (
+            <NavLink
+              to="/profile"
+              class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-[16px] px-6 py-2.5 text-center"
+            >
+              Sign In
+            </NavLink>
+          )}
         </div>
       </nav>
 
