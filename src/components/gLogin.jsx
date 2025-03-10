@@ -5,37 +5,47 @@ import { successNoti } from '../helper/notiMessage';
 import { useMutation } from '@tanstack/react-query';
 import { Spinner } from 'flowbite-react';
 import { useState } from 'react';
-
-const useSignIn = (setLoggedIn) => {
-  return useMutation({
-    mutationFn: async () => {
-      const loginData = await signInWithGoogle();
-      const authToken = loginData.accessToken;
-
-      if (authToken) {
-        const res = await api.post(`api/v1/login`, {
-          token: authToken,
-        });
-        return res;
-      }
-      throw new Error('No auth token received');
-    },
-    onSuccess: (data) => {
-      console.log('Login Res', data);
-      successNoti('Login Success');
-      setLoggedIn(true);
-    },
-    onError: (error) => {
-      console.error('Error during sign-in:', error);
-    },
-  });
-};
+import useAuthStore from '../store/useAuthStore';
 
 export function GLogin({
   title = 'Welcome Back',
   description = 'Sign in to continue',
 }) {
-  const [isLoggedIn, setLoggedIn] = useState(true); // New state
+  const { setUser, setToken } = useAuthStore();
+  const [isLoggedIn, setLoggedIn] = useState(false); // New state
+
+  const useSignIn = (setLoggedIn) => {
+    return useMutation({
+      mutationFn: async () => {
+        const loginData = await signInWithGoogle();
+        const authToken = loginData.accessToken;
+        console.log('firebase token', authToken);
+        if (authToken) {
+          const res = await api.post(`api/v1/login`, {
+            token: authToken,
+          });
+          return res;
+        }
+        throw new Error('No auth token received');
+      },
+      onSuccess: (data) => {
+        const res = data.data;
+        console.log('Login Res', res);
+        setToken(res.accessToken);
+        setUser({
+          id: res.id,
+          name: res.name,
+          email: res.email,
+        });
+        successNoti('Login Success');
+        setLoggedIn(true);
+      },
+      onError: (error) => {
+        console.error('Error during sign-in:', error);
+      },
+    });
+  };
+
   const mutation = useSignIn(setLoggedIn);
 
   const handleSignIn = () => {
