@@ -31,14 +31,13 @@ export default function BookDetail() {
   });
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ['chapters', BookDetail?.id],
+    queryKey: ['chapters', detailData?.id],
     queryFn: async () => {
       const res = await api.get(`api/v1/chapters/${detailData.id}/book`);
       return res.data;
     },
+    enabled: !!detailData?.id,
   });
-
-  console.log('User', user);
 
   if (detailLoading) {
     return (
@@ -70,7 +69,7 @@ export default function BookDetail() {
 
   const validateCoinPay = (isPremium, coin, chapterId) => (event) => {
     event.preventDefault();
-    if (isPremium && !token) {
+    if (!token) {
       setOpenModal(true);
     }
 

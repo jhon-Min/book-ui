@@ -41,12 +41,23 @@ export default function ChapterDetail() {
 
   return (
     <>
-      <div className="text-center">
+      <div className="text-center mb-10">
         <h1 className="mt-7 text-white text-2xl ">{data.name}</h1>
         <p className="mt-2 text-white text-lg">
           <span className="text-red-500 mr-1">{data.coin}</span>
           coins
         </p>
+      </div>
+
+      <div className="mb-[200px]">
+        {data?.images?.map((img, index) => (
+          <img
+            key={index} // Use 'index' if 'img' is not unique
+            src={img}
+            alt={`Chapter image ${index + 1}`}
+            className="rounded-md mb-3 px-1  w-full shadow object-cover"
+          />
+        ))}
       </div>
     </>
   );
