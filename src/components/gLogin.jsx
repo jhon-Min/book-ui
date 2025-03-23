@@ -21,7 +21,7 @@ export function GLogin({
       mutationFn: async () => {
         const loginData = await signInWithGoogle();
         const authToken = loginData.accessToken;
-        console.log('firebase token', authToken);
+        // console.log('firebase token', authToken);
         if (authToken) {
           const res = await api.post(`api/v1/login`, {
             token: authToken,

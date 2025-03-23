@@ -19,13 +19,13 @@ export default function Navbar() {
   }
   return (
     <>
-      <nav className="bg-[#101720] p-[15px] sm:px-[140px] flex items-center justify-between">
+      <nav className="bg-[#101720] p-[15px] sm:px-[140px] md:px-[70px] flex items-center justify-between">
         <div className=" flex items-center">
           <img src={logo} className="mr-4 w-[55px]" />
           <h3 className=" text-white text-[30px]">BMU</h3>
         </div>
 
-        <div className=" text-white text-[20px] hidden md:block">
+        <div className=" text-white text-[20px] hidden xl:block">
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -82,7 +82,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <nav className="md:hidden bg-[#101720] fixed bottom-[-1px] left-0 z-50 w-full h-[72px] ">
+      <nav className="xl:hidden bg-[#101720] fixed bottom-[-1px] left-0 z-50 w-full h-[72px] ">
         <div className="grid grid-cols-4 gap-3 pt-3 ">
           <div className="text-center">
             <NavLink

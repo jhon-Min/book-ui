@@ -25,7 +25,7 @@ export default function ChapterDetail() {
     enabled: !!id,
   });
 
-  console.log('Chapter Detail', data);
+  // console.log('Chapter Detail', data);
 
   if (isLoading) {
     return (

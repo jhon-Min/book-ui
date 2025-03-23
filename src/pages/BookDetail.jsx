@@ -2,18 +2,21 @@ import { Link, useNavigate } from 'react-router';
 import { useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import api from '../api/api';
-import { Modal, Spinner, Button } from 'flowbite-react';
+import { Modal, Spinner, Button, ModalHeader } from 'flowbite-react';
 import { HiEye, HiEyeSlash, HiMiniLockClosed } from 'react-icons/hi2';
 import useAuthStore from '../store/useAuthStore';
 import { useState } from 'react';
 import { GLogin } from '../components/gLogin';
 import { infoNoti } from '../helper/notiMessage';
+import Category from '../components/Category';
 
 export default function BookDetail() {
   const { id } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showCoinModal, setShowCoinModal] = useState(false);
   const [selectedChapter, setSelectedChapter] = useState(null);
+  const [currentCoin, setCurrentCoin] = useState(0);
   const { user, token } = useAuthStore();
   const navigate = useNavigate();
 
@@ -29,6 +32,8 @@ export default function BookDetail() {
     },
     enabled: !!id,
   });
+
+  // console.log(detailData);
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['chapters', detailData?.id],
@@ -61,6 +66,7 @@ export default function BookDetail() {
 
   function handleCancel() {
     setShowConfirmationModal(false);
+    setShowCoinModal(false);
   }
 
   const handleLoginSuccess = () => {
@@ -71,19 +77,30 @@ export default function BookDetail() {
     event.preventDefault();
     if (!token) {
       setOpenModal(true);
+      return;
     }
 
-    if (token && user.points >= coin) {
+    setCurrentCoin(coin);
+
+    if (token && user.points >= coin && isPremium) {
       setShowConfirmationModal(true);
       setSelectedChapter(chapterId);
-    } else if (token) {
+    } else if (token && !isPremium) {
+      setSelectedChapter(chapterId);
+      navigate(`/chapters/${chapterId}`);
+    } else {
       infoNoti('လက်ကျန် coin မလုံလောက်ပါ');
+      setShowCoinModal(true);
     }
   };
 
   function handleConfirm() {
     handleCancel();
     navigate(`/chapters/${selectedChapter}`);
+  }
+
+  function handleDeposit() {
+    handleCancel();
   }
 
   return (
@@ -96,17 +113,26 @@ export default function BookDetail() {
       <div className="grid backdrop-blur-md bg-white/5 w-full h-[31rem] absolute top-[82px] left-0 md:grid-cols-2">
         <img
           src={detailData.bookProfile}
-          className="rounded-lg w-72 h-[22rem] object-cover mx-auto mt-[70px] md:mt-28 xl:ms-24 xl:mt-20 xl:w-80"
+          className="rounded-lg w-72 h-[22rem] object-cover mx-auto mt-[70px] md:mt-28 xl:ms-24 xl:mt-20 xl:w-80 custom-boxshadow"
         />
       </div>
 
       <div className="px-[15px] md:px-[140px] mt-10 text-white mb-[150px]">
-        <p className="text-[25px] text-center text-red-500 mb-3">
+        <p className="text-[25px] text-center  text-red-500 mb-3">
           {detailData?.name || '---'}
         </p>
+
+        <div className="mt-[20px] mb-[35px]">
+          {detailData.genres.length > 0
+            ? detailData.genres.map((item) => {
+                return <Category key={item.id} name={item.name} />;
+              })
+            : ''}
+        </div>
+
         <p>{detailData?.description || '......'}</p>
 
-        <hr className="border-red-500 my-10" />
+        <hr className=" my-10" />
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {isLoading ? (
@@ -120,7 +146,7 @@ export default function BookDetail() {
                   // to={`/chapters/${x.id}`}
                   onClick={validateCoinPay(x.isPremium, x.coin, x.id)}
                 >
-                  <h5 className="text-lg font-bold">
+                  <h5 className="text-[16px] italic font-bold">
                     {x.isPremium ? (
                       <HiEyeSlash
                         style={{
@@ -140,7 +166,7 @@ export default function BookDetail() {
                     )}
                     Chapter {x.no}
                   </h5>
-                  <p className="mt-2 ">
+                  <p className="mt-2 text-[14px]">
                     <span className="text-red-500 mr-1">{x.coin}</span>
                     coins
                   </p>
@@ -152,7 +178,7 @@ export default function BookDetail() {
 
         {/* Login Modal */}
         <Modal
-          className="pt-[120px] md:pt-0"
+          className="pt-[120px] md:pt-0 shadow border rounded-sm"
           show={openModal}
           size="md"
           onClose={onCloseModal}
@@ -172,23 +198,67 @@ export default function BookDetail() {
         {/* Confirm Modal */}
         <Modal
           show={showConfirmationModal}
-          className="pt-[120px] md:pt-0"
+          className="pt-[250px] md:pt-0 shadow "
           onClose={handleCancel}
           size="md"
           popup
         >
-          <Modal.Header className="bg-[#101720]" />
+          <Modal.Header className="bg-[#101720]"></Modal.Header>
           <Modal.Body className="bg-[#101720] text-white">
             <div className="text-center">
-              <h3 className="text-xl font-bold mb-10">
-                Are you sure you want to proceed?
+              <p className="text-red-500 font-light text-[22px] mb-4">
+                Buy or Subscribe
+              </p>
+              <h3 className="mb-10 font-light">
+                Purchase this chapter for{' '}
+                <span className="text-red-500 font-bold">{currentCoin}</span>{' '}
+                coin?
               </h3>
+
               <div className="flex justify-center gap-4">
                 <Button
                   onClick={handleConfirm}
                   className="bg-green-500 hover:bg-green-600"
                 >
-                  Yes
+                  Buy ( {currentCoin} coin)
+                </Button>
+                <Button
+                  onClick={handleCancel}
+                  className="bg-red-500 hover:bg-red-600"
+                >
+                  No
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+
+        {/* No Enough Coin Modal */}
+        <Modal
+          show={showCoinModal}
+          className="pt-[250px] md:pt-0"
+          onClose={handleCancel}
+          size="md"
+          popup
+        >
+          <Modal.Header className="bg-[#101720]"></Modal.Header>
+          <Modal.Body className="bg-[#101720] text-white">
+            <div className="text-center">
+              <p className="text-red-500 font-light text-[22px] mb-4">
+                လက်ကျန် coin မလုံလောက်ပါ
+              </p>
+              <h3 className="mb-[50px] font-light">
+                Purchase this chapter for{' '}
+                <span className="text-red-500 font-bold">{currentCoin}</span>{' '}
+                coin?
+              </h3>
+
+              <div className="flex justify-center gap-4">
+                <Button
+                  onClick={handleDeposit}
+                  className="bg-green-500 hover:bg-green-600"
+                >
+                  Buy Coin
                 </Button>
                 <Button
                   onClick={handleCancel}

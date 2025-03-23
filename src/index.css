@@ -13,3 +13,69 @@ body {
     background-color: #0B1215;
     /* background-color: #101720; */
 }
+
+.design {
+    border: 0.5px solid #4A9BFF;
+    border-radius: 10px;
+    background: radial-gradient(circle, rgb(240, 82, 82) 30%, #4A9BFF 100%);
+    /* box-shadow: 0 0 5px #4A9BFF, 0 0 20px rgba(74, 155, 255, 0.2); */
+    box-shadow: 0 0 10px rgb(240, 82, 82), 0 0 20px rgba(74, 155, 255, 0.2) !important;
+}
+
+.custom-boxshadow {
+    box-shadow: 0 0 20px rgb(240, 82, 82), 0 0 20px rgba(74, 155, 255, 0.2) !important;
+}
+
+.hrColor {
+    border: 1px solid #4A9BFF;
+}
+
+.status {
+    display: inline !important;
+    font-size: 12px;
+    padding: 2px;
+    border-radius: 5px;
+
+}
+
+.fire {
+    width: 20px;
+    position: absolute;
+    bottom: 75px;
+    left: 12px;
+}
+
+.custom-box-shadow {
+    border: 0.5px solid #4A9BFF;
+    border-radius: 10px;
+    box-shadow: 0 0 5px #4A9BFF, 0 0 20px rgba(74, 155, 255, 0.2);
+}
+
+.fancy-btn {
+    background: rgb(240, 82, 82);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    /* Uppercase text */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+
+}
+
+.fancy-btn:hover {
+    background-color: rgb(240, 82, 82);
+    /* Darker green on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    /* Larger shadow on hover */
+    transform: translateY(-2px);
+    /* Slight lift on hover */
+}
+
+.fancy-btn:active {
+    background-color: rgb(240, 82, 82);
+    box-shadow: 0 0 5px #4A9BFF, 0 0 20px rgba(74, 155, 255, 0.2);
+    transform: translateY(0);
+    /* Reset lift on click */
+}
